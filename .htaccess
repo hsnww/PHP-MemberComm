@@ -1,0 +1,8 @@
+RewriteEngine On
+# Redirect from the root to the frontend directory
+#RewriteCond %{REQUEST_URI} !^/frontend/
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ frontend/$1 [L]
+RewriteRule ^$ frontend/index.php [L]
+

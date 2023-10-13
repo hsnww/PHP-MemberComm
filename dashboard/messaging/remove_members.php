@@ -91,7 +91,6 @@ if ($stmt_delete->execute()) {
     $_SESSION['bg'] = "danger";
     header('Location: ' . $_SERVER['HTTP_REFERER']);
     exit();
-
 }
 
 ?>

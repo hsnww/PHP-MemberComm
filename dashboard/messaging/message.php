@@ -13,7 +13,7 @@ $memberCheckStmt->execute();
 $memberCheckResult = $memberCheckStmt->get_result();
 // إذا لم يتم العثور على السجل، يعني أن المستخدم الحالي ليس جزءًا من المحادثة
 
-if ($memberCheckResult->num_rows === 0 || array_search('Administrator', $user_roles) === false) {
+if(isset($_SESSION['user_id']) && (array_search(1, $user_roles) === false )) {
     $_SESSION['errorMessage'] = "ليس لديك الصلاحية للوصول إلى هذه المحادثة.";
     header("Location: inbox.php");
 //    die("ليس لديك الصلاحية للوصول إلى هذه المحادثة.");

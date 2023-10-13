@@ -32,7 +32,7 @@ function ensureUserProfileExists($conn, $user_id) {
 
 // دالة لمعرفة صلاحية المستخدم
 function getUserRoles($conn, $user_id) {
-    $sql_roles = "SELECT roles.role_name 
+    $sql_roles = "SELECT roles.id 
                   FROM roles 
                   JOIN role_user ON roles.id = role_user.role_id 
                   WHERE role_user.user_id = ?";
@@ -44,7 +44,7 @@ function getUserRoles($conn, $user_id) {
     $user_roles = [];
     $result_roles = $stmt_roles->get_result();
     while($row = $result_roles->fetch_assoc()) {
-        $user_roles[] = $row['role_name'];
+        $user_roles[] = $row['id'];
     }
     return $user_roles;
 }

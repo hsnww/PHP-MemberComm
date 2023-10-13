@@ -181,7 +181,6 @@ include $_SERVER['DOCUMENT_ROOT'] . '/eshopStores/common/dashboard_sidebar.php';
                         <table class="table table-hover">
                             <thead>
                             <tr>
-                                <th scope="col">Check</th>
                                 <th scope="col">#</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Email</th>
@@ -192,10 +191,8 @@ include $_SERVER['DOCUMENT_ROOT'] . '/eshopStores/common/dashboard_sidebar.php';
                             </tr>
                             </thead>
                             <tbody>
-                            <form method="post" action="<?php echo $base_url; ?>messaging/chat.php">
                                 <?php while ($row = $result->fetch_assoc()): ?>
                                 <tr>
-                                    <td><input type="checkbox" name="recipient_id[]" id="recipient_id" value="<?php echo $row['user_id']; ?>"></td>
                                     <th scope="row"><?php echo $row['user_id']; ?></th>
                                     <td><?php echo $row['first_name'] . ' ' . $row['last_name']; ?></td>
                                     <td><?php echo $row['email']; ?></td>
@@ -218,8 +215,6 @@ include $_SERVER['DOCUMENT_ROOT'] . '/eshopStores/common/dashboard_sidebar.php';
                                     </td>
                                 </tr>
                             <?php endwhile; ?>
-                                <input type="submit" id="submitButton" value="Send Message" class="btn btn-primary">
-                            </form>
                             </tbody>
                         </table>
                         <!-- End Table with hoverable rows -->

@@ -1,9 +1,9 @@
-<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/eshopStores/common/userHead.php'; ?>
+<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/eshopStores/common/adminHead.php'; ?>
 <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/eshopStores/common/functions.php'; ?>
 
 <?php
 $user_id = $_SESSION['user_id'];
-$roles = getUserRoles($conn, $_SESSION['user_id']);
+$user_roles = getUserRoles($conn, $_SESSION['user_id']);
 
 //تعريف عدد السجلات لكل صفحة
 $records_per_page = 10;
@@ -26,7 +26,7 @@ if($current_page < 1) {
 $offset = ($current_page - 1) * $records_per_page;
 
 
-if(isset($_SESSION['user_id']) && (array_search('Administrator', $roles) !== false || array_search('Moderator', $roles) !== false)) {
+if(isset($_SESSION['user_id']) && (array_search(1, $user_roles) !== false )) {
     $query = "
 SELECT
 conversations.id AS conversation_id,
@@ -147,7 +147,15 @@ include $_SERVER['DOCUMENT_ROOT'] . '/eshopStores/common/template_sidebar.php';
 
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Inbox</h5>
+                        <h5 class="card-title">All messages ( <?php echo $total_records ?> )</h5>
+
+                        <?php
+                        if (isset($_SESSION['message'])) {
+                            echo "<div class='alert alert-success'>" . $_SESSION['message'] . "</div>";
+                            unset($_SESSION['message']);
+                        }
+                        unset($_SESSION['message']);
+                        ?>
 
                         <!-- Default Table -->
                         <table class="table table-hover">
@@ -191,9 +199,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/eshopStores/common/template_sidebar.php';
                                         echo $membersCount; ?></td>
                                     <td><?php echo $conversation['total_attachments'] ?></td>
                                     <td colspan="3">
-                                        <a href=""><i class="bx bx-reply"></i></a>
-                                        <a href=""><i class="bx bxs-comment-detail"></i></a>
-                                        <a href=""><i class="bx bx-block"></i></a>
+                                        <a href="delete_conversation_confirm.php?id=<?php echo $conversation['conversation_id'] ?>">delete</a>
                                     </td>
                                 </tr>
                                 <?php

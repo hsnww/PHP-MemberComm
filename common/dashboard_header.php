@@ -2,7 +2,7 @@
     <div class="d-flex align-items-center justify-content-between">
         <a href="<?php echo $base_url ?>dashboard" class="logo d-flex align-items-center">
             <img src="<?php echo $base_url ?>dashboard/assets/img/logo.png" alt="">
-            <span class="d-none d-lg-block">NiceAdmin</span>
+            <span class="d-none d-lg-block">php MemberComm</span>
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->

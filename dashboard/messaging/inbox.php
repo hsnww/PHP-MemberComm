@@ -1,4 +1,4 @@
-<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/eshopStores/common/userHead.php'; ?>
+<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/eshopStores/common/adminHead.php'; ?>
 <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/eshopStores/common/functions.php'; ?>
 
 <?php

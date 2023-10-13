@@ -5,6 +5,27 @@
 $user_id = $_SESSION['user_id'];
 $roles = getUserRoles($conn, $_SESSION['user_id']);
 
+//تعريف عدد السجلات لكل صفحة
+$records_per_page = 10;
+
+//حساب العدد الإجمالي للسجلات:
+
+$result_count = $conn->query("SELECT COUNT(*) as total FROM conversations");
+$row_count = $result_count->fetch_assoc();
+$total_records = $row_count['total'];
+$total_pages = ceil($total_records / $records_per_page);
+
+//تحديد الصفحة الحالية:
+$current_page = isset($_GET['page']) && is_numeric($_GET['page']) ? $_GET['page'] : 1;
+if($current_page > $total_pages) {
+    $current_page = $total_pages;
+}
+if($current_page < 1) {
+    $current_page = 1;
+}
+$offset = ($current_page - 1) * $records_per_page;
+
+
 if(isset($_SESSION['user_id']) && (array_search('Administrator', $roles) !== false || array_search('Moderator', $roles) !== false)) {
     $query = "
 SELECT
@@ -37,11 +58,13 @@ profiles ON first_message.sender_id = profiles.user_id
 GROUP BY 
 conversations.id
 ORDER BY 
-conversations.created_at DESC; 
+conversations.created_at DESC
 ";
 
+//    تعديل الاستعلام SQL لتضمين LIMIT:
+    $query .= " LIMIT " . $offset . ", " . $records_per_page;
+
     $stmt = $conn->prepare($query);
-//    $stmt->bind_param("ii", $user_id, $user_id);
     $stmt->execute();
 
     $result = $stmt->get_result();
@@ -101,7 +124,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/eshopStores/common/dashboard_header.php';
 
 <!-- ======= Sidebar ======= -->
 <?php
-include $_SERVER['DOCUMENT_ROOT'] . '/eshopStores/common/dashboard_sidebar.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/eshopStores/common/template_sidebar.php';
 ?>
 <!-- End Sidebar-->
 
@@ -179,6 +202,21 @@ include $_SERVER['DOCUMENT_ROOT'] . '/eshopStores/common/dashboard_sidebar.php';
                             </tbody>
                         </table>
                         <!-- End Default Table Example -->
+
+                        <nav aria-label="...">
+                            <ul class="pagination">
+                                <?php for($page = 1; $page <= $total_pages; $page++): ?>
+                                <li class="page-item <?php if($page == $current_page) echo 'active'; ?>" aria-current="page">
+                                    <span class="page-link">
+                                     <a href="?page=<?php echo $page; ?>">
+                                    <?php echo $page; ?>
+                                </a>
+                                    </span>
+                                </li>
+                                <?php endfor; ?>
+                            </ul>
+                        </nav>
+
                     </div>
                 </div>
             </div>
